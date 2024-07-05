@@ -1,19 +1,8 @@
-
 import {SubmitHandler, useForm} from "react-hook-form"
-
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { changeUser, getUser } from '../api/useApi'
 import { toast } from 'sonner'
-
-// const zodSchema = zod.object({
-//   address: zod.string().min(10),
-//   city : zod.string().min(1),
-//   country : zod.string().min(2),
-//   email: zod.string().email().optional(),
-//   name: zod.string().
-// })
-
 
 type fields = {
   address: string,
@@ -28,10 +17,8 @@ const UserProfile = () => {
   const {userData, isFetchedUser} = getUser() 
   const {register, handleSubmit, formState: {errors, isSubmitting}} = useForm<fields>({
   })
-  // console.log("why")
-  // console.log(userData)
+  console.log("in the spot")
   const onSubmit: SubmitHandler<fields> = async (data) => {
-    // console.log(data)
     await mutateAsync(data)
     toast.success("Information Successfully updated!")
   }

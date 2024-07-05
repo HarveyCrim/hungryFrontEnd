@@ -10,6 +10,7 @@ const AuthCallback = () => {
   useEffect(() => {
     const ans = {auth0Id: user?.sub as string, email: user?.email as string, name: user?.name as string}
     const run = async () => {
+        console.log("creating a new use")
         await createANewUser(ans)
     }
     run()

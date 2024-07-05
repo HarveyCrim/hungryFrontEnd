@@ -22,9 +22,11 @@ export const getUser = () => {
     const query = useQuery( {
         queryKey: ["singleuser"],
         queryFn: async () => {
+            
             const token = localStorage.getItem("token")
             if(!token)
                 return null
+            console.log("making request")
             const resp =  await axios({
                 method:"get",
                 url:BASE_URL+"/api/user/",
@@ -69,6 +71,7 @@ export const changeUser = () => {
 export const createUser = () => {
     const client = useQueryClient()
     const createRequest = async (data: user) => {
+        console.log("creating user")
         const resp = await axios({
             method:'post',
             url: BASE_URL+"/api/user/create",
@@ -80,6 +83,7 @@ export const createUser = () => {
     const userMutation = useMutation({
         mutationFn: createRequest,
         onSuccess: (data) => {
+            console.log("success")
             localStorage.setItem("token", JSON.stringify(data.data.token))
             client.invalidateQueries({queryKey: ["singleuser"]})
         },
