@@ -1,7 +1,6 @@
-import React from 'react'
-import {FieldError, SubmitHandler, useForm} from "react-hook-form"
-import { zodResolver } from '@hookform/resolvers/zod'
-import zod from "zod"
+
+import {SubmitHandler, useForm} from "react-hook-form"
+
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { changeUser, getUser } from '../api/useApi'
@@ -27,7 +26,7 @@ type fields = {
 const UserProfile = () => {
   const {mutateAsync} = changeUser()
   const {userData, isFetchedUser} = getUser() 
-  const {register, handleSubmit, setError, formState: {errors, isSubmitting, isSubmitted}} = useForm<fields>({
+  const {register, handleSubmit, formState: {errors, isSubmitting}} = useForm<fields>({
   })
   // console.log("why")
   // console.log(userData)

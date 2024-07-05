@@ -1,8 +1,8 @@
 import { useAuth0 } from '@auth0/auth0-react'
-import React from 'react'
 import { Link } from 'react-router-dom'
 const UserMenu = () => {
-    const {logout} = useAuth0()
+
+const {logout} = useAuth0()
   return (
     <div className = "bg-white border-2 w-fit space-y-2 p-6 min-w-[180px]">
         <p className = "font-bold text-slate-950 text-xl text-center">My Restaurant</p>

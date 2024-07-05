@@ -56,8 +56,7 @@ export const changeUser = () => {
             })
             return resp.data
         },
-        onSuccess : (data, user, context) => {
-            console.log(data)
+        onSuccess : () => {
             client.invalidateQueries({queryKey: ["singleuser"]})
         }
     })
@@ -80,9 +79,7 @@ export const createUser = () => {
 
     const userMutation = useMutation({
         mutationFn: createRequest,
-        onSuccess: (data, variables, context) => {
-            console.log("first")
-            console.log(data)
+        onSuccess: (data) => {
             localStorage.setItem("token", JSON.stringify(data.data.token))
             client.invalidateQueries({queryKey: ["singleuser"]})
         },

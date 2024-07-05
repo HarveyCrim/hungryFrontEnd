@@ -1,28 +1,21 @@
-import React, { useRef, MutableRefObject, useEffect } from 'react'
+import React from 'react'
 import Header from '../components/Header'
-import { IoMdClose } from "react-icons/io";
-import { useDispatch, useSelector } from 'react-redux';
-import { IRootState } from '../redux/store';
-import { setAppDrawer } from '../redux/userSlice';
+
+
 import Hero from '../components/Hero';
 import Searchbox from '../components/Searchbox';
-import { RxAvatar } from "react-icons/rx";
+
 import download from "../assets/appDownload.png"
 import phones from "../assets/landing.png"
 import Footer from '../components/Footer';
-import UserMenu from '../components/UserMenu';
-import { useAuth0 } from '@auth0/auth0-react';
-import { Link } from 'react-router-dom';
-import Cookies from "js-cookie"
 type props = {
     children? : React.ReactNode
 }
 
 const Layout1 = ({children}: props) => {
-  const dispatch = useDispatch()
-  const drawer = useSelector<IRootState, boolean>(state => state.userReducer.appDrawer)
   return (<>
     <div className="flex flex-col min-h-screen flex-auto">
+        {children}
         <Header />
         <Hero />
         <div className='shadow-lg border space-y-8 w-[90%] mx-auto z-20 mt-[-100px] bg-white rounded-xl pt-3 pb-8'>

@@ -7,7 +7,7 @@ import { getUser } from './api/useApi'
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from './redux/store'
 import { useEffect, useRef } from 'react'
-import { Toaster, toast } from 'sonner';
+import { Toaster } from 'sonner';
 import ProtectedRoutes from './components/ProtectedRoutes'
 import { setAppDrawer } from './redux/userSlice'
 const AppRoutes = () => {

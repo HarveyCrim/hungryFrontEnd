@@ -1,5 +1,5 @@
 
-import { useRef, useEffect } from 'react'
+import { useRef } from 'react'
 import { IoMdClose } from "react-icons/io";
 import { useDispatch, useSelector } from 'react-redux';
 import { IRootState } from '../redux/store';
