@@ -13,7 +13,7 @@ export const MyAuth = ({children} : {children? : React.ReactNode}) => {
         }}
         onRedirectCallback = {
             (appstate: AppState|undefined ,user: User|undefined) => {
-                // console.log(appstate)
+                console.log(appstate)
                 if(user){
                     // console.log("right")
                     navigate("/auth-callback")
