@@ -27,7 +27,7 @@ export const getUser = () => {
                 return null
             const resp =  await axios({
                 method:"get",
-                url:"http://localhost:3000/api/user/",
+                url:BASE_URL+"/api/user/",
                 headers: {
                     Authorization: JSON.parse(token)
                 }
