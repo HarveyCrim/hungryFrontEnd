@@ -15,7 +15,6 @@ import SearchPage from './pages/SearchPage'
 import Restaurant from './pages/Restaurant'
 const AppRoutes = () => {
   const myref = useRef<HTMLDivElement | null>(null)
-  const blur = useSelector<IRootState, boolean>(state => state.blurReducer.blur)
   const menuState = useSelector<IRootState, boolean>(state => state.userReducer.appDrawer)
   console.log("rend")
   const dispatch = useDispatch()
