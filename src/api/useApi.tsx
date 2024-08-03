@@ -42,6 +42,21 @@ export const getUser = () => {
 
     return {userData, isFetchedUser}
 }
+export const getUserManually = () => {
+    const {data, isPending, mutateAsync: getUserWithClick} = useMutation({
+        mutationFn: async () => {
+            const resp = axios({
+                method: "get",
+                url:BASE_URL+"/api/user/",
+                headers: {
+                    Authorization: JSON.parse(localStorage.getItem("token") as string)
+                }
+            })
+            return resp
+        }
+    })
+    return {data, isPending, getUserWithClick}
+}
 
 export const changeUser = () => {
     const client = useQueryClient()

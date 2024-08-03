@@ -8,12 +8,13 @@ import { RxAvatar } from "react-icons/rx";
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
 const PhoneNav = () => {
+    const blur = useSelector<IRootState, boolean>(state => state.blurReducer.blur)
     const drawer = useSelector<IRootState, boolean>(state => state.userReducer.appDrawer)
     const {isAuthenticated, user, logout, loginWithRedirect} = useAuth0()
     const dispatch = useDispatch()
     const slideRef = useRef<HTMLDivElement | null> (null)
     return (
-        <div ref = {slideRef} className = {`md:hidden ${!drawer ? "hidden" : "flex"} z-50 fixed animate-in slide-in-from-right top-[0px] z-10 right-[0px] flex-col min-h-screen bg-orange-500/90 w-[80%] border-2 border-orange-500`}>
+        <div ref = {slideRef} className = {`md:hidden ${!drawer ? "hidden" : "flex"} ${blur && "opacity-10"} z-50 fixed animate-in slide-in-from-right top-[0px] z-10 right-[0px] flex-col min-h-screen bg-orange-500/90 w-[80%] border-2 border-orange-500`}>
         <IoMdClose onClick = {() => dispatch(setAppDrawer(false))} className='fill-white self-end m-2 cursor-pointer hover:fill-black' size = {50}/>
         <div className='h-fit w-fit self-center mt-[40px] text-white font-semibold text-2xl space-y-4'>
             {!isAuthenticated && <p>Sign up</p>}
@@ -28,6 +29,7 @@ const PhoneNav = () => {
                 <div className = "w-[90%] mt-2 mx-auto bg-[#FCAB31] h-[3px]"></div>
                 </div>}
             {isAuthenticated && <Link className = "mx-auto pt-5 text-center block" onClick ={() => {dispatch(setAppDrawer(false))}} to ="/user-profile">User Profile</Link>}
+            {isAuthenticated && <Link onClick ={() => {dispatch(setAppDrawer(false))}} className = "mx-auto  text-center block" to = {"/manage-restaurant"}>My Restaurant</Link>}
             {isAuthenticated && <button onClick = {() => {logout(); localStorage.removeItem("token")}}className = "bg-black text-2xl text-white font-bold rounded-lg py-2 px-4 mx-auto block" >Log out</button>}
         </div>
     </div>

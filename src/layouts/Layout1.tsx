@@ -21,7 +21,7 @@ const Layout1 = ({children}: props) => {
         <div className='shadow-lg border space-y-8 w-[90%] mx-auto z-20 mt-[-100px] bg-white rounded-xl pt-3 pb-8'>
             <h1 className='text-orange-500 text-4xl md:text-6xl text-center font-bold'>Tuck into a takeaway today!</h1>
             <p className='text-center text-lg font-semibold'>Food is just a click away.</p>
-            <Searchbox />
+            <Searchbox initial = {true}/>
         </div>
         <div className='flex flex-col md:flex-row mt-[100px] mb-[80px]'>
             <div className='w-full'>

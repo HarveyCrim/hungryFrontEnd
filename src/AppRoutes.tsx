@@ -1,5 +1,5 @@
 
-import { Navigate, Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Layout1 from './layouts/Layout1'
 import AuthCallback from './pages/AuthCallback'
 import UserProfile from './pages/UserProfile'
@@ -10,8 +10,12 @@ import { useEffect, useRef } from 'react'
 import { Toaster } from 'sonner';
 import ProtectedRoutes from './components/ProtectedRoutes'
 import { setAppDrawer } from './redux/userSlice'
+import ManageRestaurant from './components/ManageRestaurant'
+import SearchPage from './pages/SearchPage'
+import Restaurant from './pages/Restaurant'
 const AppRoutes = () => {
   const myref = useRef<HTMLDivElement | null>(null)
+  const blur = useSelector<IRootState, boolean>(state => state.blurReducer.blur)
   const menuState = useSelector<IRootState, boolean>(state => state.userReducer.appDrawer)
   console.log("rend")
   const dispatch = useDispatch()
@@ -28,15 +32,17 @@ const AppRoutes = () => {
   }, [menuState])
   getUser()
   return (
-    <div ref = {myref} className = "z-30">
+    <div ref = {myref} className = {`z-30`}>
     <Toaster />
         <Routes>
         <Route path = "/" element = {<Layout1></Layout1>} />
         <Route path = "/auth-callback" element = {<AuthCallback />} />,
         <Route element = {<ProtectedRoutes />}>
             <Route path = "/user-profile" element = {<UserProfile />} />
+            <Route path = "/manage-restaurant" element = {<ManageRestaurant />} />
+            <Route path = "/restaurant/city/:city" element = {<SearchPage />} />
+            <Route path = "/restaurant/:id" element = {<Restaurant />} />
         </Route>
-        <Route path = "*" element = {<Navigate to = "/" />} />
     </Routes>
     </div>
   )

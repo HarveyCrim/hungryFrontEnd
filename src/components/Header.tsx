@@ -12,12 +12,14 @@ const Header = () => {
   const menuState = useSelector<IRootState, boolean>(state => state.userReducer.userMenu)
   const dispatch = useDispatch()
   useEffect(() => {
-    window.onmousedown = (e) => {
+    const listener = (e: Event) => {
         if(menuState && !showMenuRef.current?.contains(e.target as Node)){
             dispatch(setUserMenu(false))
         }
     }
-  },[])
+    document.addEventListener("mousedown", listener)
+    return () => document.removeEventListener("mousedown", listener)
+  },[menuState])
   const {loginWithRedirect, isAuthenticated, user} = useAuth0()
   const toggleUserMenu = () => {
     dispatch(setUserMenu(!menuState))
