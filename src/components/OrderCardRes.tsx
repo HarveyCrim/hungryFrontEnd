@@ -1,9 +1,6 @@
 import { useState } from "react"
 import {  updateSingleOrder } from "../api/orderApi"
-import {getAllOrdersRes } from '../api/orderApi';
 import { toast } from "sonner"
-import { useSelector } from "react-redux";
-import { IRootState } from "../redux/store";
 import { reloadTheOrders } from "../redux/userSlice";
 import { useDispatch } from "react-redux";
 

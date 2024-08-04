@@ -14,7 +14,6 @@ import ManageRestaurant from './components/ManageRestaurant'
 import SearchPage from './pages/SearchPage'
 import Restaurant from './pages/Restaurant'
 import OrdersClient from './components/OrdersClient'
-import { SpinnerCircular } from 'spinners-react'
 const AppRoutes = () => {
   const myref = useRef<HTMLDivElement | null>(null)
   
