@@ -38,9 +38,9 @@ export const getUser = () => {
           }
     })
 
-    const {data: userData, isSuccess: isFetchedUser} = query
+    const {data: userData, isSuccess: isFetchedUser, isFetching} = query
 
-    return {userData, isFetchedUser}
+    return {userData, isFetchedUser, isFetching}
 }
 export const getUserManually = () => {
     const {data, isPending, mutateAsync: getUserWithClick} = useMutation({

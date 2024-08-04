@@ -9,8 +9,17 @@ import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
 import zod from "zod"
 import { createRes, getRes } from '../api/resApi';
 import zodSchema from '../zodSchemas/restaurant';
+import OrderCardRes from './OrderCardRes';
+import {getAllOrdersRes } from '../api/orderApi';
+import { SpinnerCircular } from 'spinners-react';
+import { useSelector } from 'react-redux';
+import { IRootState } from '../redux/store';
 const ManageRestaurant = () => {
+  const {allOrdersData, isPending, resOrders} = getAllOrdersRes()
+  const [active, setActive] = useState<boolean>(true)
+  
   const [image, setImage] = useState<string | null>(null)
+  const reloadOrders = useSelector<IRootState, boolean>(state => state.userReducer.reloadOrders)
   const {data: resData, isSuccess} = getRes()
   const {register, handleSubmit, control, reset, formState: {errors}} = useForm<formFields>({
     resolver: zodResolver(zodSchema)
@@ -31,8 +40,10 @@ const ManageRestaurant = () => {
             menuItems: resData?.data.menuItems || []
         })
         setImage(resData?.data.imageUrl)
+        resOrders(resData.data._id)
     }
-  },[resData, isSuccess])
+  },[resData, isSuccess, reloadOrders])
+
 
   const {createTheRes} = createRes()
   const [manage, setManage] = useState(false)
@@ -53,6 +64,16 @@ const ManageRestaurant = () => {
         name: "menuItems",
         control
     })
+    
+    const orderChange = (order: string) => {
+        if(order === "active"){
+            setActive(true)
+        }
+        else{
+            setActive(false)
+        }
+    }
+
     const onSubmit: SubmitHandler<formFields> = async (data: formFields) => {
         if(resData?.data?.imageURL){
             createTheRes(data)
@@ -75,16 +96,42 @@ const ManageRestaurant = () => {
             createTheRes(dataToSend)
         })
   }
-  return (
+  console.log("alld")
+  console.log(allOrdersData)
+  if(isPending){
+    return <SpinnerCircular />
+  }
+  if(allOrdersData?.data){
+    return (
     <>
     <Header />
-    <div className=' px-10 mt-10'>
+    <div className=' px-10 mt-10 pb-12'>
         <div className = "flex ml-3 mt-3 cursor-pointer bg-gray-200 w-fit font-semibold text-lg space-x-3 px-3 py-2 rounded-3xl">
             <span onClick = {() => setManage(false)} className={!manage ? 'bg-white py-1 shadow-md animate-in ease-in delay-150 px-3 rounded-3xl':"bg-gray-200 py-1 px-3 rounded-3xl"}>Orders</span>
             <span onClick = {() => setManage(true)} className={manage ? 'bg-white py-1 shadow-md animate-in ease-in delay-150 px-3 rounded-3xl': "bg-gray-200 py-1 px-3 rounded-3xl"}>Manage Restaurant</span>
         </div>
-        {!manage && <div>
-            Orders
+        {!manage && <div className='ml-3 min-h-[62vh]'>
+            <div className='flex gap-5 mt-6'>
+                <p onClick = {() => orderChange("active")} className = {`font-semibold cursor-pointer p-1 hover:bg-black hover:text-white hover:rounded-md text-lg ${active && "border-b-2 border-orange-500"}`}>Active Order(s)</p>
+                <p onClick = {() => orderChange("")} className = {`font-semibold cursor-pointer p-1 hover:bg-black hover:text-white hover:rounded-md text-lg ${!active && "border-b-2 border-orange-500"}`}>Completed Order(s)</p>
+            </div>
+            {active && <div className='space-y-14 mt-4'>
+                {
+                allOrdersData?.data.map((item : any, index: number) => {
+                    if(item.status !== "delivered")
+                    return <OrderCardRes  key = {index} name = {item.user.name} cartItems={item.cartItems} status={item.status} total = {item.totalAmount} address = {item.user.address} orderId = {item._id}/>
+                })
+            }
+                </div>}
+            {!active && <div className ="space-y-14 mt-4">
+                {
+                allOrdersData?.data.map((item : any, index: number) => {
+                    if(item.status === "delivered")
+                    return <OrderCardRes  key = {index} name = {item.user.name} cartItems={item.cartItems} status={item.status} total = {item.totalAmount} address = {item.user.address} orderId = {item._id}/>
+                })
+            }
+                </div>}
+
         </div>}
         {manage && <form className='space-y-5 pt-3 md:pl-3 pb-20 mt-5 md:pr-10 ' onSubmit={handleSubmit(onSubmit)}>
             <h1 className='m-0 p-0 text-4xl font-bold'>Details</h1>
@@ -174,6 +221,7 @@ const ManageRestaurant = () => {
      <Footer />
     </>
   )
+}
 }
 
 export default ManageRestaurant
